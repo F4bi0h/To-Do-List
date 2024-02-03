@@ -1,0 +1,74 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --one-color: #01080E;
+    --two-color: #4C5761;
+    --three-color: #D7E03F;
+    --color: #e9e9e9;
+}
+
+html,
+body,
+main,
+section {
+    height: 100%;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--one-color);
+    color: var(--color);
+}
+
+.navbar {
+    color: var(--one-color);
+}
+
+/* INDEX / LOGIN */
+.area-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.area-login .form-login {
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 1px solid var(--color);
+    border-bottom: 1px solid var(--color);
+}
+
+.area-info {
+    width: 40%;
+}
+
+/* FORMULÁRIO DE CADASTRO DE TAREFA */
+.area-cadastrar-tarefa {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.area-cadastrar-tarefa .img-cadastrar-tarefa img {
+    width: 70%;
+}
+
+
+/* LISTA DE TAREFAS */
+.area-tarefas {
+    margin-top: 5%;
+    height: 80%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
