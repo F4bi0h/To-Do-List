@@ -29,10 +29,10 @@
                     <h1>Login</h1>
                     <form action="/PHP/validações/validar-login.php" method="POST">
                         <div class="form-group">
-                            <input type="email" class="form-control mb-3" placeholder="Digite seu e-mail" required>
+                            <input type="email" name="email" class="form-control mb-3" placeholder="Digite seu e-mail" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control mb-3" placeholder="Digite sua senha" required>
+                            <input type="password" name="senha" class="form-control mb-3" placeholder="Digite sua senha" required>
                         </div>
                         <div class="d-grid mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Acessar</button>

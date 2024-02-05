@@ -42,6 +42,9 @@
                             <li class="nav-item dropdown">
                                 <a href="tarefas-concluidas.php" class="nav-link">Concluídas</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/PHP/sair.php" class="nav-link">Sair</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
