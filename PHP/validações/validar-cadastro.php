@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 try {
     $dsn = 'mysql:host=localhost;dbname=todolist';
     $root = 'root';
@@ -7,7 +9,7 @@ try {
     $query = '
         insert into usuario(nome, email, senha)
             values
-        (:user_nome, :user_email, :user_senha)
+        (:user_nome, :user_email, MD5(:user_senha))
     ';
 
     $conexao = new PDO($dsn, $root, $password);
@@ -18,9 +20,9 @@ try {
     $stmt->bindValue(':user_senha', $_POST['senha']);
     $stmt->execute();
 
-    $lista = $stmt->fetch(PDO::FETCH_ASSOC);
+    header('Location: ../../cadastro.php?usuario=cadastrado');
 
-    print_r($lista);
+    
 } catch (PDOException $e) {
     echo 'ERROR: ' . $e->getCode() .' - Mensagem: '. $e->getMessage(); 
 }

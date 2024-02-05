@@ -52,6 +52,11 @@ section {
     width: 40%;
 }
 
+.info-task,
+.form-login {
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+}
 
 
 /* FORMULÁRIO DE CADASTRO DE USUÁRIO */
@@ -62,6 +67,11 @@ section {
     align-items: center;
     justify-content: space-around;
     flex-direction: row;
+}
+
+main section .text-success {
+    position: absolute;
+    top: 10%;
 }
 
 .area-form-cadastro .form-cadastro {

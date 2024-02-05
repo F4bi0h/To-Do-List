@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -24,6 +28,11 @@
 
     <main>
         <section>
+            <?php
+            if (isset($_GET['usuario']) && $_GET['usuario'] == 'cadastrado') {?>
+                <div id="usuario-cadastro" class="text-success text-center" style="font-size: 25px;">Usuário cadastro com sucesso!!!</div>
+            <?php } ?>
+            
             <div class="area-form-cadastro">
                 <div class="area-info">
                     <div class="info-task">
@@ -65,7 +74,24 @@
         </section>
     </main>
 
+    <!-- BOOTSTRAP 5.3 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ANIME.JS 3.2.2 -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2"></script>
+
+    <script>
+        anime({
+            targets: '#usuario-cadastro',
+            keyframes: [
+                { translateY: 10 },
+                { translateY: 0 }
+            ],
+            duration: 1500,
+            easing: 'easeOutElastic(2, .8)',
+            loop: true
+        });
+    </script>
 </body>
 
 </html>
