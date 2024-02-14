@@ -1,10 +1,47 @@
+<?php
+session_start();
+if ($_SESSION['autenticado'] == false) {
+    header('Location: index.php?usuario=nao-autenticado');
+}
+
+try {
+    $dns = 'mysql:host=localhost;dbname=TODOLIST';
+    $root = 'root';
+    $password = '';
+
+    $query = '
+        select
+            id_tarefa,
+            titulo_tarefa,
+            tipo_tarefa,
+            descricao,
+            data_tarefa,
+            status_tarefa
+        from
+            tarefa
+        where id_usuario = :id and status_tarefa = 1
+    ';
+
+    $conexao = new PDO($dns, $root, $password);
+    $stmt = $conexao->prepare($query);
+    $stmt->bindValue(':id', $_SESSION['id']);
+    $stmt->execute();
+
+    $tarefasConcluidas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+
+} catch (PDOException $e) {
+    echo 'ERRO:' . $e->getCode() . ' / ' . 'MENSAGEM: ' . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskMaster</title>
+    <title>TaskFlow</title>
 
     <!-- BOOTSTRAP 5.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -18,10 +55,13 @@
 </head>
 
 <body>
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
+    </div>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">TaskMaster</a>
+                <a class="navbar-brand" href="#">TaskFlow</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#canvas-toggler"
                     aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -58,7 +98,6 @@
                 <table class="table table-sm table-dark table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Id</th>
                             <th scope="col">Título</th>
                             <th scope="col">Tipo da Tarefa</th>
                             <th scope="col">Descrição</th>
@@ -67,20 +106,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Maratona</td>
-                            <td>Esporte</td>
-                            <td>Maratona de corrido ao ar livre no Plano Piloto.</td>
-                            <td>22/04/2024</td>
-                            <td>Pendente</td>
-                        </tr>
+                        <?php foreach($tarefasConcluidas as $value) { ?>
+                            <tr id="<?= $value['id_tarefa'] ?>">
+                                <td><?= $value['titulo_tarefa'] ?></td>
+                                <td><?= $value['tipo_tarefa'] ?></td>
+                                <td><?= $value['descricao'] ?></td>
+                                <td><?= date("d/m/Y", strtotime($value['data_tarefa'])) ?></td>
+                                <td><?= $status = ($value['status_tarefa'] == 0) ? 'Pedente' : 'Concluída' ?></td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
 
+    <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

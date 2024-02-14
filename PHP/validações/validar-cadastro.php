@@ -6,23 +6,40 @@ try {
     $root = 'root';
     $password = '';
 
-    $query = '
-        insert into usuario(nome, email, senha)
-            values
-        (:user_nome, :user_email, MD5(:user_senha))
+    $verificarUsuarioExiste = '
+        select
+            *
+        from
+            usuario
+        where
+            email = :email
     ';
 
     $conexao = new PDO($dsn, $root, $password);
-    $stmt = $conexao->prepare($query);
+    $stmt = $conexao->prepare($verificarUsuarioExiste);
 
-    $stmt->bindValue(':user_nome', $_POST['nome']);
-    $stmt->bindValue(':user_email', $_POST['email']);
-    $stmt->bindValue(':user_senha', $_POST['senha']);
+    $stmt->bindParam(':email', $_POST['email']);
     $stmt->execute();
 
-    header('Location: ../../cadastro.php?usuario=cadastrado');
+    if ($stmt->rowCount() > 0) {
+        header('Location: ../../cadastro.php?usuario=existe');
+    } else {
+        $query = '
+            insert into usuario(nome, email, senha)
+                values
+            (:user_nome, :user_email, MD5(:user_senha))
+        ';
+        $stmt = $conexao->prepare($query);
 
-    
+        $stmt->bindValue(':user_nome', $_POST['nome']);
+        $stmt->bindValue(':user_email', $_POST['email']);
+        $stmt->bindValue(':user_senha', $_POST['senha']);
+        $stmt->execute();
+
+        header('Location: ../../index.php?usuario=cadastrado');
+    }
+
+
 } catch (PDOException $e) {
-    echo 'ERROR: ' . $e->getCode() .' - Mensagem: '. $e->getMessage(); 
+    echo 'ERROR: ' . $e->getCode() . ' - Mensagem: ' . $e->getMessage();
 }

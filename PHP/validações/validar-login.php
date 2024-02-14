@@ -1,5 +1,9 @@
 <?php
-    try {
+session_start();
+$_SESSION['autenticado'] = false;
+
+try {
+    if (!empty($_POST["email"]) && !empty($_POST["senha"])) {
         $dsn = 'mysql:host=localhost;dbname=TODOLIST';
         $root = 'root';
         $password = '';
@@ -25,10 +29,19 @@
 
         $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo '<pre>';
-            print_r($lista);
-        echo '<pre>';
+        foreach($lista as $value) {
+            $idUsuario = $value['id'];
+        }
 
-    } catch(PDOException $e) {
-        echo 'ERRO: ' . $e->getCode() . ' / ' . 'MENSAGEM: ' . $e->getMessage();
+        if($stmt->rowCount() == 1) {
+            $_SESSION['autenticado'] = true;
+            header('Location: ../../home.php?usuario='.$idUsuario);
+        } else {
+            $_SESSION['autenticado'] = false;
+            header('Location: ../../index.php?usuario=erro');
+        }
     }
+
+} catch (PDOException $e) {
+    echo 'ERRO: ' . $e->getCode() . ' / ' . 'MENSAGEM: ' . $e->getMessage();
+}

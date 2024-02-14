@@ -18,6 +18,9 @@ session_start();
 </head>
 
 <body>
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
+    </div>
     <header>
         <nav class="navbar navbar-expand bg-light fixed-top">
             <div class="container">
@@ -28,11 +31,6 @@ session_start();
 
     <main>
         <section>
-            <?php
-            if (isset($_GET['usuario']) && $_GET['usuario'] == 'cadastrado') {?>
-                <div id="usuario-cadastro" class="text-success text-center" style="font-size: 25px;">Usuário cadastro com sucesso!!!</div>
-            <?php } ?>
-            
             <div class="area-form-cadastro">
                 <div class="area-info">
                     <div class="info-task">
@@ -59,12 +57,15 @@ session_start();
                                 required>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="senha" class="form-control mb-3" placeholder="Digite sua senha"
+                            <input type="password" name="senha" class="form-control mb-3" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="A senha deve ter no mínimo 8 caracteres, incluindo pelo menos uma letra e um número" placeholder="Digite sua senha"
                                 required>
                         </div>
                         <div class="d-grid mb-2">
                             <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
                         </div>
+                        <?php if (isset($_GET['usuario']) && $_GET['usuario'] == 'existe') { ?>
+                            <div class="text-warning" style="display: block;">Usuário já cadastrado.</div>
+                        <?php } ?>
                         <a href="index.php"
                             class="link-offset-2 link-underline link-underline-opacity-0 text-primary">Faça Login</a>
                     </form>
@@ -79,18 +80,33 @@ session_start();
 
     <!-- ANIME.JS 3.2.2 -->
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2"></script>
+    <script src="js/script.js"></script>
 
     <script>
         anime({
-            targets: '#usuario-cadastro',
-            keyframes: [
-                { translateY: 10 },
-                { translateY: 0 }
-            ],
-            duration: 1500,
-            easing: 'easeOutElastic(2, .8)',
-            loop: true
+            targets: '.info-task',
+            translateX: -50,
+            delay: 100,
+            direction: 'alternate',
+            loop: 1,
+            easing: 'easeInOutCirc'
         });
+
+        anime({
+            targets: '.form-cadastro',
+            translateX: -50,
+            delay: 100,
+            direction: 'alternate',
+            loop: 1,
+            easing: 'easeInOutCirc'
+        });
+
+        window.addEventListener('load', () => {
+            let infoTask = document.querySelector('.info-task');
+            let formCadastro = document.querySelector('.form-cadastro');
+            infoTask.style.opacity = 1;
+            formCadastro.style.opacity = 1;
+        })
     </script>
 </body>
 

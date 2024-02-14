@@ -1,10 +1,21 @@
+<?php
+session_start();
+if ($_SESSION['autenticado'] == false) {
+    header('Location: index.php?usuario=nao-autenticado');
+}
+
+if (!isset($_SESSION['id']) && $_SESSION['id'] == null) {
+    $_SESSION['id'] = $_GET['usuario'];
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskMaster</title>
+    <title>TaskFlow</title>
 
     <!-- BOOTSTRAP 5.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -14,10 +25,13 @@
 </head>
 
 <body>
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
+    </div>
     <header>
         <nav class="navbar bg-body-tertiary fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">TaskMaster</a>
+                <a class="navbar-brand" href="#">TaskFlow</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#canvas-toggler"
                     aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -50,6 +64,10 @@
 
     <main>
         <section>
+            <?php if (isset($_GET['tarefa']) && $_GET['tarefa'] == 'cadastrada') { ?>
+                <div id="alert-tarefa-concluida" class="text-success" style="font-size: 25px;">Tarefa Cadastrada com
+                    sucesso.</div>
+            <?php } ?>
             <div class="area-cadastrar-tarefa">
                 <div class="img-cadastrar-tarefa">
                     <img src="/SVG/undraw_online_organizer_re_156n.svg" alt="">
@@ -58,24 +76,26 @@
                     <h2>Cadastrar nova tarefa</h2>
                     <form action="/PHP/cadastrar-tarefa.php" method="post">
                         <div class="form-group">
-                            <input type="text" name="titulo-tarefa" class="form-control mb-2" placeholder="Titulo da tarefa">
+                            <input type="text" name="titulo-tarefa" class="form-control mb-2"
+                                placeholder="Titulo da tarefa">
                         </div>
                         <div class="form-group">
                             <select class="form-select mb-2" aria-label="Default select" name="tipo-tarefa" id="">
                                 <option value="">Tipo da tarefa</option>
-                                <option value="1">Compras</option>
-                                <option value="2">Esporte</option>
-                                <option value="3">Lista de Desejos</option>
-                                <option value="4">Pessoal</option>
-                                <option value="5">Trabalho</option>
-                                <option value="6">Outros</option>
+                                <option value="Compras">Compras</option>
+                                <option value="Esporte">Esporte</option>
+                                <option value="Lista de Desejos">Lista de Desejos</option>
+                                <option value="Pessoal">Pessoal</option>
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Outros">Outros</option>
                             </select>
                         </div>
                         <div class="form-group mb-2">
-                            <textarea name="" id="" cols="30" rows="4" class="form-control" placeholder="Descrição da tarefa"></textarea>
+                            <textarea name="descricao-tarefa" id="" cols="30" rows="4" class="form-control"
+                                placeholder="Descrição da tarefa"></textarea>
                         </div>
                         <div class="form-group">
-                            <input type="date" class="form-control">
+                            <input type="date" name="data-tarefa" class="form-control">
                         </div>
                         <div class="d-grid mt-1">
                             <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -86,7 +106,23 @@
         </section>
     </main>
 
+    <!-- ANIME.JS 3.2.2 -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2"></script>
+    <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        anime({
+            targets: '#alert-tarefa-concluida',
+            keyframes: [
+                { translateY: -8 },
+                { translateY: 0 }
+            ],
+            duration: 2000,
+            easing: 'easeOutElastic(1, .8)',
+            loop: true
+        });
+    </script>
 </body>
 
 </html>
