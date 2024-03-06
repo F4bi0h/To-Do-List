@@ -67,7 +67,7 @@ if (isset($_SESSION['autenticado']) && $_SESSION['autenticado'] == true) {
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <a href="cadastro.php"
                                 class="link-offset-2 link-underline link-underline-opacity-0 text-primary">Cadastrar</a>
-                            <a href="/PHP/esqueci-senha.php"
+                            <a href="esqueci-senha.php"
                                 class="link-offset-2 link-underline link-underline-opacity-0 text-primary"
                                 style="margin-left: 10%;">Esqueci a
                                 senha</a>

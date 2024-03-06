@@ -28,9 +28,11 @@ try {
     $stmt = $conexao->prepare($query);
 
     $stmt->bindValue(':id', $id);
-    $stmt->execute();
+    $check = $stmt->execute();
 
-    $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo $check;
+
+    //$lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
     echo 'ERRO:' . $e->getCode() . ' / ' . 'MENSAGEM: ' . $e->getMessage();
@@ -61,7 +63,7 @@ try {
         <div class="loading-spinner"></div>
     </div>
     <header>
-        <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">TaskFlow</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#canvas-toggler"

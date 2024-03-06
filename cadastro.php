@@ -24,7 +24,7 @@ session_start();
     <header>
         <nav class="navbar navbar-expand bg-light fixed-top">
             <div class="container">
-                <a href="#" class="navbar-brand">TaskMaster</a>
+                <a href="#" class="navbar-brand">TaskFlow</a>
             </div>
         </nav>
     </header>
